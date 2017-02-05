@@ -11,7 +11,7 @@ umask 022
 
 . secho ""
 . secho "[$SHELLID] 작업이 '정상' 종료 되었습니다."
-. secho "" test
+. secho "" test11
 
 exit
  
