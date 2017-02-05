@@ -1,0 +1,36 @@
+##==================================================================================================
+## #시스템  명 : 공통 
+## #프로그램ID : errlog
+## #프로그램명 : 작업 오류 시  Log 처리
+## #개　　　요 : 작업 오류 시  Log 처리
+##==================================================================================================
+
+ERRCODE=$?
+
+## SHELL에서 임의로 SH_ERRCODE에 값을 넣어주면 에러 코드 처리
+if [ ${SH_ERRCODE} -ne 0 ]
+then
+    ERRCODE=${SH_ERRCODE}
+fi
+
+## USER_ERRCODE를 만들었습니다.
+if [ ${USER_ERRCODE} -ne 0 ]
+then
+    ERRCODE=${USER_ERRCODE}
+fi
+
+## 에러코드 '0' : 정상 , 그 외에는 에러
+if [ ${ERRCODE} -ne 0 ]
+then
+    LASTKEY=$LINENO
+    . secho ""
+    . secho "[$SHELLID] 작업이 '에러' 종료 되었습니다. Shell Error Line Num = [$LASTKEY]"
+    . secho ""
+    . secho ""
+    . secho "|ERROR|${ERRCODE}|${USER}|${SHELLPID}|${COUNT}|${LASTKEY}|${DBGLOGFILE}" 
+
+    ## SHELL에서 넘겨준 ERRCODE는 다시 초기화 시킨다.
+    SH_ERRCODE=0
+
+    exit 1
+fi
